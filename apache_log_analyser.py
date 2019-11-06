@@ -37,6 +37,11 @@ def count_by_key(log_list, key):
         count[key_value] = count.get(key_value, 0) + 1
     return count
 
+# log_list を引数に取り、時間 (hour) ごとのアクセス回数を辞書で返す
+def access_count_each_hour(log_list):
+    access_count = count_by_key(log_list, lambda k: k["time"].tm_hour)
+    return access_count
+
 # log_list を引数に取り、ホストごとのアクセス回数を辞書で返す
 def access_count_each_host(log_list):
     access_count = count_by_key(log_list, lambda k: k["remote_host_name"])
