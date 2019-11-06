@@ -103,8 +103,8 @@ for index, arg in enumerate(args):
         paths += [expand_path(line) for line in load_file(args[index + 1]).split("\n") if line != ""]
     elif arg == "-m":
         next_skip = True
-        if arg not in ["host", "hour"]:
-            raise ValueError("invalid mode: " + arg)
-        mode = arg
+        mode = args[index + 1]
+        if mode not in ["host", "hour"]:
+            raise ValueError("invalid mode: " + mode)
     else:
         paths += expand_path(arg)
