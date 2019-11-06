@@ -108,3 +108,13 @@ for index, arg in enumerate(args):
             raise ValueError("invalid mode: " + mode)
     else:
         paths += expand_path(arg)
+
+access_count_method = {"host": access_count_each_host, "hour": access_count_each_hour}[mode]
+sort_method = {"host": lambda k: k[1], "hour": lambda k: k[0]}[mode]
+
+log_list = log_text_to_list(load_files(*paths))
+access_count = access_count_method(log_list)
+
+print(mode + ",count")
+for key, value in sorted(access_count.items(), key=sort_method, reverse=True):
+    print(str(key) + "," + str(value))
