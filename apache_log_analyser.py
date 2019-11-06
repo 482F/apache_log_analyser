@@ -6,6 +6,13 @@ import sys
 import glob
 import os
 
+# 多次元配列を一次元に直して返す
+def resolve_nest(*target):
+    resolved_target = []
+    for elem in target:
+        resolved_target += resolve_nest(*elem) if type(elem) == list else [elem]
+    return resolved_target
+
 # ファイルの中身を str 型で返す
 def load_file(filepath):
     with open(filepath, "r") as f:
