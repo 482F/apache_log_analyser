@@ -2,6 +2,8 @@
 
 import re
 import time
+import glob
+import os
 
 # ファイルの中身を str 型で返す
 def load_file(filepath):
@@ -15,6 +17,11 @@ def load_files(*files):
     for file in files:
         text += load_file(file)
     return text
+
+# パスのワイルドカードとホームディレクトリのチルダを展開する
+def expand_path(path):
+    e_path = glob.glob(os.path.expanduser(path))
+    return e_path
 
 # access_log 内にあるアクセス時刻を表す文字列を struct_time 型で返す
 def parse_time(time_str):
