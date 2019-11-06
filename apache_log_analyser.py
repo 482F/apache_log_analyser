@@ -9,6 +9,13 @@ def load_file(filepath):
         text = f.read()
     return text
 
+# 複数ファイルの中身を結合して str で返す
+def load_files(*files):
+    text = ""
+    for file in files:
+        text += load_file(file)
+    return text
+
 # access_log 内にあるアクセス時刻を表す文字列を struct_time 型で返す
 def parse_time(time_str):
     t = time.strptime(time_str, "%d/%b/%Y:%H:%M:%S %z")
