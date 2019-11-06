@@ -2,6 +2,7 @@
 
 import re
 import time
+import sys
 import glob
 import os
 
@@ -71,3 +72,33 @@ def access_count_each_hour(log_list):
 def access_count_each_host(log_list):
     access_count = count_by_key(log_list, lambda k: k["remote_host_name"])
     return access_count
+
+
+paths = []
+next_skip = False
+start_time = None
+end_time = None
+
+args = sys.argv[1:]
+if len(args) == 0:
+    paths.append("/var/log/httpd/access_log")
+else:
+    for index, arg in enumerate(args):
+        if next_skip:
+            next_skip = False
+            continue
+        elif arg == "-s":
+            next_skip = True
+            start_time = YYYYMMDD_to_struct_time(args[index + 1])
+            if end_time == None:
+                end_time = time.localtime()
+        elif arg == "-e":
+            next_skip = True
+            end_time = YYYYMMDD_to_struct_time(args[index + 1])
+            if start_time == None:
+                start_time = YYYYMMDD_to_struct_time("00010101")
+        elif arg == "-f":
+            next_skip = True
+            paths += [expand_path(line) for line in load_file(args[index + 1]).split("\n") if line != ""]
+        else:
+            paths += expand_path(arg)
