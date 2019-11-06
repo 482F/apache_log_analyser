@@ -107,7 +107,7 @@ for index, arg in enumerate(args):
             start_time = YYYYMMDD_to_struct_time("00010101")
     elif arg == "-f":
         next_skip = True
-        paths += [expand_path(line) for line in load_file(args[index + 1]).split("\n") if line != ""]
+        paths += resolve_nest([expand_path(line) for line in load_file(args[index + 1]).split("\n") if line != ""])
     elif arg == "-m":
         next_skip = True
         mode = args[index + 1]
