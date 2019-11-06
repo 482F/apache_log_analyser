@@ -14,6 +14,11 @@ def parse_time(time_str):
     t = time.strptime(time_str, "%d/%b/%Y:%H:%M:%S %z")
     return t
 
+# YYYYMMDD 形式の文字列を struct_time 型で返す
+def YYYYMMDD_to_struct_time(string):
+    t = time.strptime(string, "%Y%m%d")
+    return t
+
 # access_log のテキストを辞書型を要素に持つリストにして返す
 def log_text_to_list(text):
     logs = [log for log in text.split("\n") if log != ""]
