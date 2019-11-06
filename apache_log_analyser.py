@@ -29,10 +29,15 @@ def log_text_to_list(text):
         log_groupdict[index] = groupdict
     return log_groupdict
 
+# key にメソッドを指定し、そのメソッドの返り値でログをグルーピングして個数を返す
+def count_by_key(log_list, key):
+    count = {}
+    for log in log_list:
+        key_value = key(log)
+        count[key_value] = count.get(key_value, 0) + 1
+    return count
+
 # log_list を引数に取り、ホストごとのアクセス回数を辞書で返す
 def access_count_each_host(log_list):
-    access_count = {}
-    for log in log_list:
-        remote_host_name = log["remote_host_name"]
-        access_count[remote_host_name] = access_count.get(remote_host_name, 0) + 1
+    access_count = count_by_key(log_list, lambda k: k["remote_host_name"])
     return access_count
