@@ -22,8 +22,8 @@ def load_file(filepath):
 # 複数ファイルの中身を結合して str で返す
 def load_files(*files):
     text = ""
-    for file in files:
-        text += load_file(file)
+    for file_path in files:
+        text += load_file(file_path)
     return text
 
 # パスのワイルドカードとホームディレクトリのチルダを展開する
