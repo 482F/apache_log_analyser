@@ -126,6 +126,9 @@ if start_time != None:
 
 access_count = access_count_method(log_list)
 
-print(mode + ",count")
+output = mode + ",count"
+
 for key, value in sorted(access_count.items(), key=sort_method, reverse=True):
-    print(str(key) + "," + str(value))
+    output += "\n" + str(key) + "," + str(value)
+
+print(output)
