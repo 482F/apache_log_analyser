@@ -78,6 +78,7 @@ paths = []
 next_skip = False
 start_time = None
 end_time = None
+mode = "host"
 
 args = sys.argv[1:]
 if len(args) == 0:
@@ -100,5 +101,10 @@ else:
         elif arg == "-f":
             next_skip = True
             paths += [expand_path(line) for line in load_file(args[index + 1]).split("\n") if line != ""]
+        elif arg == "-m":
+            next_skip = True
+            if arg not in ["host", "hour"]:
+                raise ValueError("invalid mode: " + arg)
+            mode = arg
         else:
             paths += expand_path(arg)
