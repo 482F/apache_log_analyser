@@ -28,3 +28,10 @@ def log_text_to_list(text):
         groupdict["time"] = parse_time(groupdict["time"])
         log_groupdict[index] = groupdict
     return log_groupdict
+
+def access_count_each_host(log_list):
+    access_count = {}
+    for log in log_list:
+        remote_host_name = log["remote_host_name"]
+        access_count[remote_host_name] = access_count.get(remote_host_name, 0) + 1
+    return access_count
