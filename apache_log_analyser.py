@@ -44,20 +44,16 @@ def YYYYMMDD_to_struct_time(string):
     t = time.strptime(string, "%Y%m%d")
     return t
 
-# access_log のテキストを辞書型を要素に持つリストにして返す
-def log_text_to_list(text):
-    logs = [log for log in text.split("\n") if log != ""]
-    
+# logs を辞書に変換して返す
+def logs_to_dict(logs):
     pattern = re.compile(r"(?P<remote_host_name>\S*) (?P<client_id>\S*) (?P<user_name>\S*) \[(?P<time>[^\]]*)\] \"(?P<first_row>.*?)\" (?P<last_response_status>\S*) (?P<response_bytes>\S*) \"(?P<header_referer>.*?)\" \"(?P<header_user_agent>.*?)\"")
-
-    log_groupdict = [None for k in logs]
-
-    for index, log in enumerate(logs):
+    for log in logs:
+        if log == "":
+            continue
         match = pattern.match(log)
         groupdict = match.groupdict()
         groupdict["time"] = parse_time(groupdict["time"])
-        log_groupdict[index] = groupdict
-    return log_groupdict
+        yield groupdict
 
 # key にメソッドを指定し、そのメソッドの返り値でログをグルーピングして個数を返す
 def count_by_key(log_list, key):
