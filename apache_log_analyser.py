@@ -64,10 +64,10 @@ def count_by_key(logs, key):
     return count
 
 # sdate から edate までの期間のログのみ抽出したものを返す
-def select_only_specified_date(log_list, sdate, edate):
-    selected_log_list = [log for log in log_list if sdate <= log["time"] <= edate]
-    return selected_log_list
-    
+def select_only_specified_date(logs, sdate, edate):
+    for log in logs:
+        if sdate <= log["time"] <= edate:
+            yield log
 
 # logs を引数に取り、時間 (hour) ごとのアクセス回数を辞書で返す
 def access_count_each_hour(logs):
