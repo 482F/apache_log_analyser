@@ -16,15 +16,18 @@ def resolve_nest(*target):
 # ファイルの中身を str 型で返す
 def load_file(filepath):
     with open(filepath, "r") as f:
-        text = f.read()
-    return text
+        line = f.readline()
+        while line:
+            line = line.strip("\n")
+            yield line
+            line = f.readline()
 
 # 複数ファイルの中身を結合して str で返す
 def load_files(*files):
     text = ""
     for file_path in files:
-        text += load_file(file_path)
-    return text
+        for line in load_file(file_path):
+            yield line
 
 # パスのワイルドカードとホームディレクトリのチルダを展開する
 def expand_path(path):
