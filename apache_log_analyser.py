@@ -56,9 +56,9 @@ def logs_to_dict(logs):
         yield groupdict
 
 # key にメソッドを指定し、そのメソッドの返り値でログをグルーピングして個数を返す
-def count_by_key(log_list, key):
+def count_by_key(logs, key):
     count = {}
-    for log in log_list:
+    for log in logs:
         key_value = key(log)
         count[key_value] = count.get(key_value, 0) + 1
     return count
@@ -69,14 +69,14 @@ def select_only_specified_date(log_list, sdate, edate):
     return selected_log_list
     
 
-# log_list を引数に取り、時間 (hour) ごとのアクセス回数を辞書で返す
-def access_count_each_hour(log_list):
-    access_count = count_by_key(log_list, lambda k: k["time"].tm_hour)
+# logs を引数に取り、時間 (hour) ごとのアクセス回数を辞書で返す
+def access_count_each_hour(logs):
+    access_count = count_by_key(logs, lambda k: k["time"].tm_hour)
     return access_count
 
-# log_list を引数に取り、ホストごとのアクセス回数を辞書で返す
-def access_count_each_host(log_list):
-    access_count = count_by_key(log_list, lambda k: k["remote_host_name"])
+# logs を引数に取り、ホストごとのアクセス回数を辞書で返す
+def access_count_each_host(logs):
+    access_count = count_by_key(logs, lambda k: k["remote_host_name"])
     return access_count
 
 
