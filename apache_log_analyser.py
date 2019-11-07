@@ -106,7 +106,7 @@ for index, arg in enumerate(args):
             start_time = YYYYMMDD_to_struct_time("00010101")
     elif arg == "-f":
         next_skip = True
-        paths += resolve_nest([expand_path(line) for line in load_file(args[index + 1]).split("\n") if line != ""])
+        paths += resolve_nest([expand_path(line) for line in load_file(args[index + 1]) if line != ""])
     elif arg == "-m":
         next_skip = True
         mode = args[index + 1]
@@ -118,12 +118,13 @@ for index, arg in enumerate(args):
 access_count_method = {"host": access_count_each_host, "hour": access_count_each_hour}[mode]
 sort_method = {"host": lambda k: k[1], "hour": lambda k: k[0]}[mode]
 
-log_list = log_text_to_list(load_files(*paths))
+logs = logs_to_dict(load_files(*paths))
+s_logs = logs
 
 if start_time != None:
-    log_list = select_only_specified_date(log_list, start_time, end_time)
+    s_logs = select_only_specified_date(logs, start_time, end_time)
 
-access_count = access_count_method(log_list)
+access_count = access_count_method(s_logs)
 
 output = mode + ",count"
 
